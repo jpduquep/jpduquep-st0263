@@ -34,21 +34,6 @@ class DocumentServiceStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.SendDocument = channel.unary_unary(
-                '/document.DocumentService/SendDocument',
-                request_serializer=document__pb2.DocumentRequest.SerializeToString,
-                response_deserializer=document__pb2.DocumentResponse.FromString,
-                _registered_method=True)
-        self.GetDocument = channel.unary_unary(
-                '/document.DocumentService/GetDocument',
-                request_serializer=document__pb2.DocumentRequest.SerializeToString,
-                response_deserializer=document__pb2.DocumentResponse.FromString,
-                _registered_method=True)
-        self.ListDocuments = channel.unary_unary(
-                '/document.DocumentService/ListDocuments',
-                request_serializer=document__pb2.EmptyRequest.SerializeToString,
-                response_deserializer=document__pb2.DocumentList.FromString,
-                _registered_method=True)
         self.cargarDocumento = channel.unary_unary(
                 '/document.DocumentService/cargarDocumento',
                 request_serializer=document__pb2.uploadRequest.SerializeToString,
@@ -68,24 +53,6 @@ class DocumentServiceStub(object):
 
 class DocumentServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
-
-    def SendDocument(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def GetDocument(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def ListDocuments(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
 
     def cargarDocumento(self, request, context):
         """Missing associated documentation comment in .proto file."""
@@ -108,21 +75,6 @@ class DocumentServiceServicer(object):
 
 def add_DocumentServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'SendDocument': grpc.unary_unary_rpc_method_handler(
-                    servicer.SendDocument,
-                    request_deserializer=document__pb2.DocumentRequest.FromString,
-                    response_serializer=document__pb2.DocumentResponse.SerializeToString,
-            ),
-            'GetDocument': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetDocument,
-                    request_deserializer=document__pb2.DocumentRequest.FromString,
-                    response_serializer=document__pb2.DocumentResponse.SerializeToString,
-            ),
-            'ListDocuments': grpc.unary_unary_rpc_method_handler(
-                    servicer.ListDocuments,
-                    request_deserializer=document__pb2.EmptyRequest.FromString,
-                    response_serializer=document__pb2.DocumentList.SerializeToString,
-            ),
             'cargarDocumento': grpc.unary_unary_rpc_method_handler(
                     servicer.cargarDocumento,
                     request_deserializer=document__pb2.uploadRequest.FromString,
@@ -148,87 +100,6 @@ def add_DocumentServiceServicer_to_server(servicer, server):
  # This class is part of an EXPERIMENTAL API.
 class DocumentService(object):
     """Missing associated documentation comment in .proto file."""
-
-    @staticmethod
-    def SendDocument(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            '/document.DocumentService/SendDocument',
-            document__pb2.DocumentRequest.SerializeToString,
-            document__pb2.DocumentResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
-
-    @staticmethod
-    def GetDocument(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            '/document.DocumentService/GetDocument',
-            document__pb2.DocumentRequest.SerializeToString,
-            document__pb2.DocumentResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
-
-    @staticmethod
-    def ListDocuments(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            '/document.DocumentService/ListDocuments',
-            document__pb2.EmptyRequest.SerializeToString,
-            document__pb2.DocumentList.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
 
     @staticmethod
     def cargarDocumento(request,

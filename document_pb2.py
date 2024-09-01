@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0e\x64ocument.proto\x12\x08\x64ocument\"G\n\ruploadRequest\x12\x13\n\x0bidRemitente\x18\x01 \x01(\t\x12\x0e\n\x06titulo\x18\x02 \x01(\t\x12\x11\n\tcontenido\x18\x03 \x01(\t\"?\n\x0euploadResponse\x12\x13\n\x0bidRemitente\x18\x01 \x01(\t\x12\x18\n\x10mensajeRespuesta\x18\x02 \x01(\t\"6\n\x0f\x64ownloadRequest\x12\x13\n\x0bidRemitente\x18\x01 \x01(\t\x12\x0e\n\x06titulo\x18\x02 \x01(\t\"J\n\x10\x64ownloadResponse\x12\x13\n\x0bidRemitente\x18\x01 \x01(\t\x12\x0e\n\x06titulo\x18\x02 \x01(\t\x12\x11\n\tcontenido\x18\x03 \x01(\t\":\n\x0blistRequest\x12\x13\n\x0bidRemitente\x18\x01 \x01(\t\x12\x16\n\x0eidDestinatario\x18\x02 \x01(\t\"K\n\x0clistResponse\x12\x13\n\x0bidRemitente\x18\x01 \x01(\t\x12&\n\ndocumentos\x18\x02 \x03(\x0b\x32\x12.document.Document\"a\n\x0f\x44ocumentRequest\x12\x14\n\x0cid_remitente\x18\x01 \x01(\t\x12\x17\n\x0fid_destinatario\x18\x02 \x01(\t\x12\x0e\n\x06titulo\x18\x03 \x01(\t\x12\x0f\n\x07mensaje\x18\x04 \x01(\t\",\n\x10\x44ocumentResponse\x12\x18\n\x10response_message\x18\x01 \x01(\t\"/\n\x08\x44ocument\x12\x0e\n\x06titulo\x18\x01 \x01(\t\x12\x13\n\x0binformacion\x18\x02 \x01(\t\"6\n\x0c\x44ocumentList\x12&\n\ndocumentos\x18\x01 \x03(\x0b\x32\x12.document.Document\"\x0e\n\x0c\x45mptyRequest2\xb3\x03\n\x0f\x44ocumentService\x12\x45\n\x0cSendDocument\x12\x19.document.DocumentRequest\x1a\x1a.document.DocumentResponse\x12\x44\n\x0bGetDocument\x12\x19.document.DocumentRequest\x1a\x1a.document.DocumentResponse\x12?\n\rListDocuments\x12\x16.document.EmptyRequest\x1a\x16.document.DocumentList\x12\x44\n\x0f\x63\x61rgarDocumento\x12\x17.document.uploadRequest\x1a\x18.document.uploadResponse\x12K\n\x12\x64\x65scargarDocumento\x12\x19.document.downloadRequest\x1a\x1a.document.downloadResponse\x12?\n\x0elistarRecursos\x12\x15.document.listRequest\x1a\x16.document.listResponseb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0e\x64ocument.proto\x12\x08\x64ocument\"u\n\ruploadRequest\x12\x13\n\x0bidRemitente\x18\x01 \x01(\t\x12\x0e\n\x06titulo\x18\x02 \x01(\t\x12\x11\n\tcontenido\x18\x03 \x01(\t\x12\x15\n\rcantidadNodos\x18\x04 \x01(\t\x12\x15\n\rpuertoEscucha\x18\x05 \x01(\t\"?\n\x0euploadResponse\x12\x13\n\x0bidRemitente\x18\x01 \x01(\t\x12\x18\n\x10mensajeRespuesta\x18\x02 \x01(\t\"d\n\x0f\x64ownloadRequest\x12\x13\n\x0bidRemitente\x18\x01 \x01(\t\x12\x0e\n\x06titulo\x18\x02 \x01(\t\x12\x15\n\rcantidadNodos\x18\x03 \x01(\t\x12\x15\n\rpuertoEscucha\x18\x04 \x01(\t\"J\n\x10\x64ownloadResponse\x12\x13\n\x0bidRemitente\x18\x01 \x01(\t\x12\x0e\n\x06titulo\x18\x02 \x01(\t\x12\x11\n\tcontenido\x18\x03 \x01(\t\"h\n\x0blistRequest\x12\x13\n\x0bidRemitente\x18\x01 \x01(\t\x12\x16\n\x0eidDestinatario\x18\x02 \x01(\t\x12\x15\n\rcantidadNodos\x18\x03 \x01(\t\x12\x15\n\rpuertoEscucha\x18\x04 \x01(\t\".\n\tDocumento\x12\x0e\n\x06titulo\x18\x01 \x01(\t\x12\x11\n\tcontenido\x18\x02 \x01(\t\"L\n\x0clistResponse\x12\x13\n\x0bidRemitente\x18\x01 \x01(\t\x12\'\n\ndocumentos\x18\x02 \x03(\x0b\x32\x13.document.Documento2\xe5\x01\n\x0f\x44ocumentService\x12\x44\n\x0f\x63\x61rgarDocumento\x12\x17.document.uploadRequest\x1a\x18.document.uploadResponse\x12K\n\x12\x64\x65scargarDocumento\x12\x19.document.downloadRequest\x1a\x1a.document.downloadResponse\x12?\n\x0elistarRecursos\x12\x15.document.listRequest\x1a\x16.document.listResponseb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -32,27 +32,19 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'document_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
   _globals['_UPLOADREQUEST']._serialized_start=28
-  _globals['_UPLOADREQUEST']._serialized_end=99
-  _globals['_UPLOADRESPONSE']._serialized_start=101
-  _globals['_UPLOADRESPONSE']._serialized_end=164
-  _globals['_DOWNLOADREQUEST']._serialized_start=166
-  _globals['_DOWNLOADREQUEST']._serialized_end=220
-  _globals['_DOWNLOADRESPONSE']._serialized_start=222
-  _globals['_DOWNLOADRESPONSE']._serialized_end=296
-  _globals['_LISTREQUEST']._serialized_start=298
-  _globals['_LISTREQUEST']._serialized_end=356
-  _globals['_LISTRESPONSE']._serialized_start=358
-  _globals['_LISTRESPONSE']._serialized_end=433
-  _globals['_DOCUMENTREQUEST']._serialized_start=435
-  _globals['_DOCUMENTREQUEST']._serialized_end=532
-  _globals['_DOCUMENTRESPONSE']._serialized_start=534
-  _globals['_DOCUMENTRESPONSE']._serialized_end=578
-  _globals['_DOCUMENT']._serialized_start=580
-  _globals['_DOCUMENT']._serialized_end=627
-  _globals['_DOCUMENTLIST']._serialized_start=629
-  _globals['_DOCUMENTLIST']._serialized_end=683
-  _globals['_EMPTYREQUEST']._serialized_start=685
-  _globals['_EMPTYREQUEST']._serialized_end=699
-  _globals['_DOCUMENTSERVICE']._serialized_start=702
-  _globals['_DOCUMENTSERVICE']._serialized_end=1137
+  _globals['_UPLOADREQUEST']._serialized_end=145
+  _globals['_UPLOADRESPONSE']._serialized_start=147
+  _globals['_UPLOADRESPONSE']._serialized_end=210
+  _globals['_DOWNLOADREQUEST']._serialized_start=212
+  _globals['_DOWNLOADREQUEST']._serialized_end=312
+  _globals['_DOWNLOADRESPONSE']._serialized_start=314
+  _globals['_DOWNLOADRESPONSE']._serialized_end=388
+  _globals['_LISTREQUEST']._serialized_start=390
+  _globals['_LISTREQUEST']._serialized_end=494
+  _globals['_DOCUMENTO']._serialized_start=496
+  _globals['_DOCUMENTO']._serialized_end=542
+  _globals['_LISTRESPONSE']._serialized_start=544
+  _globals['_LISTRESPONSE']._serialized_end=620
+  _globals['_DOCUMENTSERVICE']._serialized_start=623
+  _globals['_DOCUMENTSERVICE']._serialized_end=852
 # @@protoc_insertion_point(module_scope)

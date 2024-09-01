@@ -3,10 +3,6 @@ syntax = "proto3";
 package document;
 
 service DocumentService {
-    rpc SendDocument (DocumentRequest) returns (DocumentResponse);
-    rpc GetDocument (DocumentRequest) returns (DocumentResponse);
-    rpc ListDocuments (EmptyRequest) returns (DocumentList);
-
     rpc cargarDocumento (uploadRequest) returns (uploadResponse);
     rpc descargarDocumento (downloadRequest) returns (downloadResponse);
     rpc listarRecursos (listRequest) returns (listResponse);
@@ -16,6 +12,8 @@ message uploadRequest {
     string idRemitente = 1;
     string titulo = 2;
     string contenido = 3;
+    string cantidadNodos = 4;
+    string puertoEscucha = 5;
 }
 message uploadResponse {
     string idRemitente = 1;
@@ -26,6 +24,8 @@ message uploadResponse {
 message downloadRequest{
     string idRemitente = 1;
     string titulo = 2;
+    string cantidadNodos = 3;
+    string puertoEscucha = 4;
 }
 message downloadResponse{
     string idRemitente = 1;
@@ -36,33 +36,16 @@ message downloadResponse{
 message listRequest{
     string idRemitente = 1;
     string idDestinatario = 2;
+    string cantidadNodos = 3;
+    string puertoEscucha = 4;
 }
+
+message Documento{
+    string titulo = 1;
+    string contenido = 2;
+}
+
 message listResponse{
     string idRemitente = 1;
-    repeated Document documentos = 2;
+    repeated Documento documentos = 2;
 }
-
-
-
-
-message DocumentRequest {
-    string id_remitente = 1;
-    string id_destinatario = 2;
-    string titulo = 3;
-    string mensaje = 4;
-}
-
-message DocumentResponse {
-    string response_message = 1;
-}
-
-message Document {
-    string titulo = 1;
-    string informacion = 2;
-}
-
-message DocumentList {
-    repeated Document documentos = 1;
-}
-
-message EmptyRequest {}

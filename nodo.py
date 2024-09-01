@@ -13,87 +13,112 @@ class DocumentServiceServicer(document_pb2_grpc.DocumentServiceServicer):
     def __init__(self):
         self.listaDocumentos = [("titulo", "informacion")]
 
-    """
-    #aqui recibe un documento de otro nodo para guardarlo envia respuesta que se guardo de manera exitosa
-    def SendDocument(self, request, context):
-        print(f"Titulo doc a enviar: {request.titulo}")
-        # Añadir documento a la lista
-        self.listaDocumentos.append((request.titulo, request.mensaje))
-        return document_pb2.DocumentResponse(response_message="Documento guardado correctamente.")
-    
-    #aqui recibe un request con la info del documento, busca si tiene alguno que tenga el mismo nombre 
-    def GetDocument(self, request, context):
-        for titulo, informacion in self.listaDocumentos:
-            if titulo == request.titulo:
-                return document_pb2.DocumentResponse(response_message=informacion)
-        return document_pb2.DocumentResponse(response_message="Documento no encontrado.")
 
-    #aqui recibe un request, devuelve la lista de documentos que tenga
-    def ListDocuments(self, request, context):
-        documents = [
-            for doc in self.listaDocumentos:
-                document_pb2.Document(titulo=doc[0], informacion=doc[1])
-            
-        ]
-        return document_pb2.DocumentList(documentos=documents)
-    """
-
-    def cargarDocumento(self, request, cantidadNodos,puertoEscucha):
-        resultado = claveunica.clave(cantidadNodos,request.titulo)[1]
+    def cargarDocumento(self, request,context):
+        
+        cantidadNodos = int(request.cantidadNodos)
+        puertoEscucha = int(request.puertoEscucha)
+        resultado = claveunica.clave(int(cantidadNodos),request.titulo)[1]
         
         #Verificamos que nosotros si seamos los responsable de guardar este documento sino hay que seguirlo rotando
-        if resultado == int(puertoEscucha) - 5001:
+        if int(resultado) == int(puertoEscucha) - 5001:
             self.listaDocumentos.append((request.titulo, request.contenido))
             return document_pb2.uploadResponse(mensajeRespuesta="Documento guardado correctamente.",idRemitente = request.idRemitente)
         else:
             #Hay que rotar la solicitud hacia la derecha para encontrar
             if (cantidadNodos + 5000) == puertoEscucha:
+                nuevaRequest = document_pb2.uploadRequest(
+                    idRemitente=request.idRemitente,
+                    titulo=request.titulo,
+                    contenido=request.contenido,
+                    cantidadNodos = str(request.cantidadNodos),
+                    puertoEscucha = str(5001)
+                )
                 with grpc.insecure_channel(f'localhost:{5001}') as canalSiguiente:
                     stubSiguiente = document_pb2_grpc.DocumentServiceStub(canalSiguiente)
-                    return stubSiguiente.cargarDocumento(request,cantidadNodos,5000)
+                    
+                    return stubSiguiente.cargarDocumento(nuevaRequest)
             else:
-                with grpc.insecure_channel(f'localhost:{puertoEscucha+1}') as canalSiguiente:
+                nuevaRequest = document_pb2.uploadRequest(
+                    idRemitente=request.idRemitente,
+                    titulo=request.titulo,
+                    contenido=request.contenido,
+                    cantidadNodos = str(request.cantidadNodos),
+                    puertoEscucha = str(int(request.puertoEscucha) + 1)
+                )
+                with grpc.insecure_channel(f'localhost:{int(puertoEscucha)+1}') as canalSiguiente:
                     stubSiguiente = document_pb2_grpc.DocumentServiceStub(canalSiguiente)
-                    return stubSiguiente.cargarDocumento(request,cantidadNodos,puertoEscucha+1)
+                    return stubSiguiente.cargarDocumento(nuevaRequest)
 
-    def descargarDocumento(self,request,cantidadNodos,puertoEscucha):
+    def descargarDocumento(self,request,conext):
+
+        cantidadNodos = int(request.cantidadNodos)
+        puertoEscucha = int(request.puertoEscucha)
         resultado = claveunica.clave(cantidadNodos,request.titulo)[1]
 
         #Verificamos que nosotros seamos el nodo correspondiente a donde deberia estar el archivo guardado
-        if resultado == int(puertoEscucha) - 5001:
+        if int(resultado) == int(puertoEscucha) - 5001:
             for tituloLocal, informacionLocal in self.listaDocumentos:
                 if tituloLocal == request.titulo:
                     return document_pb2.downloadResponse(idRemitente = request.idRemitente,titulo = tituloLocal,contenido = informacionLocal)
             return document_pb2.downloadResponse(idRemitente = request.idRemitente,titulo = tituloLocal,contenido = "El contenido vinculado a este titulo no existe")
         else:
             #Hay que seguir la solicitud hacia la izquierda
-            if (cantidadNodos + 5000) == puertoEscucha:
+            if str(int(cantidadNodos) + 5000) == str(puertoEscucha):
+                nuevaRequest = document_pb2.downloadRequest(
+                    idRemitente=request.idRemitente,
+                    titulo=request.titulo,
+                    cantidadNodos = str(request.cantidadNodos),
+                    puertoEscucha = str(5001)
+                )
                 with grpc.insecure_channel(f'localhost:{5001}') as canalSiguiente:
                     stubSiguiente = document_pb2_grpc.DocumentServiceStub(canalSiguiente)
-                    return stubSiguiente.descargarDocumento(request,cantidadNodos,5000)
+                    return stubSiguiente.descargarDocumento(nuevaRequest)
             else:
-                with grpc.insecure_channel(f'localhost:{puertoEscucha+1}') as canalSiguiente:
+                nuevaRequest = document_pb2.downloadRequest(
+                    idRemitente=request.idRemitente,
+                    titulo=request.titulo,
+                    cantidadNodos = str(request.cantidadNodos),
+                    puertoEscucha = str(int(request.puertoEscucha) + 1)
+                )
+                with grpc.insecure_channel(f'localhost:{int(puertoEscucha)+1}') as canalSiguiente:
                     stubSiguiente = document_pb2_grpc.DocumentServiceStub(canalSiguiente)
-                    return stubSiguiente.descargarDocumento(request,cantidadNodos,puertoEscucha+1)
+                    return stubSiguiente.descargarDocumento(nuevaRequest)
     
-    def listarRecursos(self,request,cantidadNodos,puertoEscucha):
-        if request.idDestinatario == int(puertoEscucha):
+    def listarRecursos(self,request,conext):
+
+        cantidadNodos = int(request.cantidadNodos)
+        puertoEscucha = int(request.puertoEscucha)
+    
+        if int(request.idDestinatario) == (int(puertoEscucha)-5001):
             listaDocumentos = [
-                for doc in self.listaDocumentos:
-                    document_pgb2.Documento(titulo = doc[0],contenido = doc[1])
+                document_pb2.Documento(titulo=doc[0], contenido=doc[1])
+                for doc in self.listaDocumentos
             ]
             return document_pb2.listResponse(idRemitente = request.idRemitente,documentos = listaDocumentos)
         
         else:
             #Hay que seguir la solicitud hacia la izquierda
             if (cantidadNodos + 5000) == puertoEscucha:
+                nuevaRequest = document_pb2.listRequest(
+                    idRemitente=request.idRemitente,
+                    idDestinatario = request.idDestinatario,
+                    cantidadNodos = str(request.cantidadNodos),
+                    puertoEscucha = str(5001)
+                )
                 with grpc.insecure_channel(f'localhost:{5001}') as canalSiguiente:
                     stubSiguiente = document_pb2_grpc.DocumentServiceStub(canalSiguiente)
-                    return stubSiguiente.listarRecursos(request,cantidadNodos,5000)
+                    return stubSiguiente.listarRecursos(nuevaRequest)
             else:
-                with grpc.insecure_channel(f'localhost:{puertoEscucha+1}') as canalSiguiente:
+                nuevaRequest = document_pb2.listRequest(
+                    idRemitente=request.idRemitente,
+                    idDestinatario = request.idDestinatario,
+                    cantidadNodos = str(request.cantidadNodos),
+                    puertoEscucha = str(int(request.puertoEscucha) + 1)
+                )
+                with grpc.insecure_channel(f'localhost:{int(puertoEscucha)+1}') as canalSiguiente:
                     stubSiguiente = document_pb2_grpc.DocumentServiceStub(canalSiguiente)
-                    return stubSiguiente.listarRecursos(request,cantidadNodos,puertoEscucha+1)
+                    return stubSiguiente.listarRecursos(nuevaRequest)
 
 
 def serve(puerto):
@@ -101,8 +126,8 @@ def serve(puerto):
     document_pb2_grpc.add_DocumentServiceServicer_to_server(DocumentServiceServicer(), server)
     server.add_insecure_port(f'[::]:{puerto}')
     server.start()
-    print(f"Servidor gRPC en ejecución en el puerto {puerto}...")
-    print("Soy el nodo",puerto-5001)
+    print("Servidor gRPC en ejecución en el puerto",puerto,"...")
+    print("Soy el nodo",puerto-5001,"\n")
     try:
         while True:
             time.sleep(86400)
@@ -128,7 +153,9 @@ def enviarMensajes(puertoIzq, puertoDer, puertoDeEscucha,cantidadNodos):
                 request = document_pb2.uploadRequest(
                     idRemitente=str(idNodo),
                     titulo=titulo,
-                    contenido=mensaje
+                    contenido=mensaje,
+                    cantidadNodos = str(cantidadNodos),
+                    puertoEscucha = str(puertoDeEscucha)
                 )
 
                 #Lanza solicitud
@@ -140,6 +167,8 @@ def enviarMensajes(puertoIzq, puertoDer, puertoDeEscucha,cantidadNodos):
                 request = document_pb2.downloadRequest(
                     idRemitente=str(idNodo),
                     titulo=titulo,
+                    cantidadNodos = str(cantidadNodos),
+                    puertoEscucha = str(puertoDeEscucha)
                 )
                 response = stubDerecha.descargarDocumento(request)
                 print("Titulo:",response.titulo,"\n"+response.contenido)
@@ -147,11 +176,13 @@ def enviarMensajes(puertoIzq, puertoDer, puertoDeEscucha,cantidadNodos):
             elif resp == '3':  # Mostrar listado
                 nodoConsultar = input("Que nodo quieres que rote la lista: ")
 
-                request = document_pb2.uploadRequest(
+                request = document_pb2.listRequest(
                     idRemitente=str(idNodo),
-                    idDestinatario = nodoConsultar
+                    idDestinatario = str(nodoConsultar),
+                    cantidadNodos = str(cantidadNodos),
+                    puertoEscucha = str(puertoDeEscucha)
                 )
-                response = stubDerecha.listRequest(request)
+                response = stubDerecha.listarRecursos(request)
                 print("\nListado de documentos del nodo",nodoConsultar)
                 print("-" * 20)
                 for documento in response.documentos:
@@ -160,9 +191,10 @@ def enviarMensajes(puertoIzq, puertoDer, puertoDeEscucha,cantidadNodos):
                     print("-" * 20)
                 print("\n")
 
-def iniciarNodo(puertoDeEscucha, puertoIzq, puertoDer):
+def iniciarNodo(puertoDeEscucha, puertoIzq, puertoDer,cantidadNodos):
     # Iniciar el servidor gRPC en un hilo separado
     threading.Thread(target=serve, args=(puertoDeEscucha,)).start()
+    time.sleep(3)
 
     # Iniciar la función para enviar mensajes
     enviarMensajes(puertoIzq, puertoDer, puertoDeEscucha,cantidadNodos)
@@ -174,4 +206,4 @@ if __name__ == '__main__':
     puertoDer = int(sys.argv[3])
     cantidadNodos = int(sys.argv[4])
 
-    iniciarNodo(puertoDeEscucha, puertoIzq, puertoDer)
+    iniciarNodo(puertoDeEscucha, puertoIzq, puertoDer,cantidadNodos)
