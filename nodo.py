@@ -127,7 +127,7 @@ def serve(puerto):
     server.add_insecure_port(f'[::]:{puerto}')
     server.start()
     print("Servidor gRPC en ejecución en el puerto",puerto,"...")
-    print("Soy el nodo",puerto-5001,"\n")
+    print("Soy el nodo",puerto-5001)
     try:
         while True:
             time.sleep(86400)
@@ -146,7 +146,7 @@ def enviarMensajes(puertoIzq, puertoDer, puertoDeEscucha,cantidadNodos):
         stubDerecha = document_pb2_grpc.DocumentServiceStub(canal_grpc_Der)
 
         while True:
-            resp = input('Digite salir si desea terminar la consola \n1: Para cargar un documento \n2: Para descargar un documento\n3: Mostrar lista de documentos\nR/ ')
+            resp = input('\nDigite salir si desea terminar la consola \n1: Para cargar un documento \n2: Para descargar un documento\n3: Mostrar lista de documentos\nR/ ')
             if resp.lower() == "salir":
                 break
 
