@@ -136,6 +136,9 @@ def serve(puerto):
 
 def enviarMensajes(puertoIzq, puertoDer, puertoDeEscucha,cantidadNodos):
     idNodo = int(puertoDeEscucha) - 5001
+    print("pIzq",puertoIzq)
+    print("pDer",puertoDer)
+    print("pEscucha",puertoDeEscucha)
 
     with grpc.insecure_channel(f'localhost:{puertoIzq}') as canal_grpc_Izq, grpc.insecure_channel(f'localhost:{puertoDer}') as canal_grpc_Der:
         stubIzquierda = document_pb2_grpc.DocumentServiceStub(canal_grpc_Izq)
@@ -155,7 +158,7 @@ def enviarMensajes(puertoIzq, puertoDer, puertoDeEscucha,cantidadNodos):
                     titulo=titulo,
                     contenido=mensaje,
                     cantidadNodos = str(cantidadNodos),
-                    puertoEscucha = str(puertoDeEscucha)
+                    puertoEscucha = str(puertoDer)
                 )
 
                 #Lanza solicitud
@@ -168,7 +171,7 @@ def enviarMensajes(puertoIzq, puertoDer, puertoDeEscucha,cantidadNodos):
                     idRemitente=str(idNodo),
                     titulo=titulo,
                     cantidadNodos = str(cantidadNodos),
-                    puertoEscucha = str(puertoDeEscucha)
+                    puertoEscucha = str(puertoDer)
                 )
                 response = stubDerecha.descargarDocumento(request)
                 print("Titulo:",response.titulo,"\n"+response.contenido)
@@ -180,7 +183,7 @@ def enviarMensajes(puertoIzq, puertoDer, puertoDeEscucha,cantidadNodos):
                     idRemitente=str(idNodo),
                     idDestinatario = str(nodoConsultar),
                     cantidadNodos = str(cantidadNodos),
-                    puertoEscucha = str(puertoDeEscucha)
+                    puertoEscucha = str(puertoDer)
                 )
                 response = stubDerecha.listarRecursos(request)
                 print("\nListado de documentos del nodo",nodoConsultar)
