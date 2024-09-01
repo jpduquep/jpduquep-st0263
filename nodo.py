@@ -1,6 +1,9 @@
 import socket
 import threading
 import sys
+import json
+
+listaDocumentos = [("titulo,informacion"),]
 
 def recibirMensajes(sock):
     #Funcion para recibir y gestionar los mensajes
@@ -8,18 +11,66 @@ def recibirMensajes(sock):
         data, _ = sock.recvfrom(1024)  # Hasta 1024 bytes de datos, se usa el _ porque lo segundo que devuelve el recvfrom es el addr (Ip y puerto del remitente) 
         if not data:
             break
-        print(f"\nMensaje recibido: ",data.decode('utf-8'))  # Imprimir el mensaje
+        mensaje = json.loads(data.decode('utf-8'))
+        print(f"\nMensaje recibido: ",mensaje)  # Imprimir el mensaje
 
 def enviarMensajes(sock, puertoIzq, puertoDer, host='127.0.0.1'):
     #Funcion para enviar mensajes
+    
+    
     while True:
-        print("Digita Salir si quieres terminar")
-        mensaje = input("Escribe el mensaje a enviar: ")
-        
+        mensaje = input('Digite salir si desea terminar la consola \n1: Para cargar un documento \n2: Para descargar un documento\n3:Mostrar lista de documentos')
         if mensaje.lower() == "salir":
             sock.close()
             break
+
+
+        #En el 1 y 2 hay que armar el JSON para enviarlo como un API.
+
+        elif mensaje == '1': #Cargar documento a la red
+            
+            mensajeJson = json.dumps(
+            {
+                "tipoMensaje" : None,
+                "idDestinatario": None,
+                "idRemitente": None,
+                "titulo" : None,
+                "mensaje":mensaje
+
+            }
+        )
+            pass
+
+        elif mensaje == 2: #Descargar documento de la red
+            mensajeJson = json.dumps(
+            {
+                "tipoMensaje" : None,
+                "idDestinatario": None,
+                "idRemitente": None,
+                "titulo" : None,
+                "mensaje":mensaje
+
+            }
+        )
+            pass
+
+        elif mensaje == 3:  #Mostrar listado
+            for documento in listaDocumentos:
+                titulo,informacion = documento[0],documento[1]
+                print("Titulo: ",titulo)
+                print("Informacion:\n",informacion)
+                print("-"*20)
+
+
+
+
         
+        
+        
+
+        
+        
+
         #Enviando mensaje a la izquierda
         if puertoIzq:
             sock.sendto(mensaje.encode('utf-8'), (host, puertoIzq))
