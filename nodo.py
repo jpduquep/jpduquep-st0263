@@ -136,10 +136,11 @@ def serve(puerto):
 
 def enviarMensajes(puertoIzq, puertoDer, puertoDeEscucha,cantidadNodos):
     idNodo = int(puertoDeEscucha) - 5001
+    '''
     print("pIzq",puertoIzq)
     print("pDer",puertoDer)
     print("pEscucha",puertoDeEscucha)
-
+    '''
     with grpc.insecure_channel(f'localhost:{puertoIzq}') as canal_grpc_Izq, grpc.insecure_channel(f'localhost:{puertoDer}') as canal_grpc_Der:
         stubIzquierda = document_pb2_grpc.DocumentServiceStub(canal_grpc_Izq)
         stubDerecha = document_pb2_grpc.DocumentServiceStub(canal_grpc_Der)
