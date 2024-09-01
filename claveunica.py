@@ -64,7 +64,7 @@ def clave(N, titulo): #N es numero de nodos en el P2P
         cadenaBits = ['0']*cantidadBits
         titulo = limpiarTitulo(str(titulo))
 
-        print("El titulo limpio es:",titulo)
+        #print("El titulo limpio es:",titulo)
         #print("La cadena a hacer la clave es",cadenaBits)
 
         #Proceso de armado de cadena
@@ -79,7 +79,7 @@ def clave(N, titulo): #N es numero de nodos en el P2P
     else:
         return False #esto retorna en caso de que no sea un exponente de 2 la cantidad de nodos que hay
     
-
+'''
 def main():
     numeroNodos = int(input("Cuantos nodos tiene el sistema? "))
     nombreArchivo = input("Que es lo que estas buscando? ")
@@ -87,3 +87,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+'''

@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+package document;
+
+service DocumentService {
+    rpc SendDocument (DocumentRequest) returns (DocumentResponse);
+    rpc GetDocument (DocumentRequest) returns (DocumentResponse);
+    rpc ListDocuments (EmptyRequest) returns (DocumentList);
+
+    rpc cargarDocumento (uploadRequest) returns (uploadResponse);
+    rpc descargarDocumento (downloadRequest) returns (downloadResponse);
+    rpc listarRecursos (listRequest) returns (listResponse);
+}
+
+message uploadRequest {
+    string idRemitente = 1;
+    string titulo = 2;
+    string contenido = 3;
+}
+message uploadResponse {
+    string idRemitente = 1;
+    string mensajeRespuesta = 2;
+}
+
+
+message downloadRequest{
+    string idRemitente = 1;
+    string titulo = 2;
+}
+message downloadResponse{
+    string idRemitente = 1;
+    string titulo = 2;
+    string contenido = 3;
+}
+
+message listRequest{
+    string idRemitente = 1;
+    string idDestinatario = 2;
+}
+message listResponse{
+    string idRemitente = 1;
+    repeated Document documentos = 2;
+}
+
+
+
+
+message DocumentRequest {
+    string id_remitente = 1;
+    string id_destinatario = 2;
+    string titulo = 3;
+    string mensaje = 4;
+}
+
+message DocumentResponse {
+    string response_message = 1;
+}
+
+message Document {
+    string titulo = 1;
+    string informacion = 2;
+}
+
+message DocumentList {
+    repeated Document documentos = 1;
+}
+
+message EmptyRequest {}

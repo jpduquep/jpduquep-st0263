@@ -22,7 +22,8 @@ def main():
         subprocess.Popen(['cmd', '/c', 'start', 'python', 'nodo.py', 
                           str(puerto_escucha), 
                           str(puerto_izquierda), 
-                          str(puerto_derecha)],
+                          str(puerto_derecha),
+                          str(N)],
                           creationflags=subprocess.CREATE_NEW_CONSOLE)
 
 if __name__ == "__main__":
