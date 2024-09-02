@@ -26,7 +26,8 @@ Aunque el proyecto cumplió con la mayoría de los requerimientos, hay algunos a
 ## Información General
 
 ### Arquitectura
-![image](https://github.com/user-attachments/assets/f77e4269-aff0-42d4-9b3d-35809cdf8cfa)
+![image](https://github.com/user-attachments/assets/9f885fc9-1081-4c2d-a008-4e91dc8ec06a)
+
 
 
 ### Información general
