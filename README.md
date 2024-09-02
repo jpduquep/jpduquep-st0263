@@ -26,7 +26,8 @@ Aunque el proyecto cumplió con la mayoría de los requerimientos, hay algunos a
 ## Información General
 
 ### Arquitectura
-![image](https://github.com/user-attachments/assets/4e590c29-c06a-4ad6-9d91-92f6ce4cbc99)
+![image](https://github.com/user-attachments/assets/f77e4269-aff0-42d4-9b3d-35809cdf8cfa)
+
 
 ### Información general
 En el proyecto se implementó gRPC, el framework de llamada a procedimiento remoto (RPC) desarrollado por Google, utilizando librerías de Python para manejar la comunicación interna entre microservicios en cada nodo de la red P2P. gRPC se basa en la definición de servicios en un archivo `.proto`, que actúa como un contrato entre el cliente y el servidor. En este archivo `.proto`, se definen las funciones disponibles para la llamada remota, especificando tanto los mensajes de solicitud (`request`) como los de respuesta (`response`). Esta estructura permite una comunicación eficiente y de alto rendimiento entre los microservicios, y es independiente del lenguaje de programación, lo que facilita la integración con otros servicios o sistemas que puedan estar implementados en diferentes tecnologías.
