@@ -79,7 +79,7 @@ En cada consola abierta, puedes interactuar con el nodo correspondiente. Elige e
 
 ![image](https://github.com/user-attachments/assets/352f9705-8dc1-4625-89e3-dd1818af208a)
 ![image](https://github.com/user-attachments/assets/a50b29aa-3f54-43cd-ad2d-757c84ec7624)
-![image](https://github.com/user-attachments/assets/9d08e574-9e6f-42f8-9923-802cd36a0259)
+
 
 
 
