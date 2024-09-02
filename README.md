@@ -60,10 +60,12 @@ Para instalar las librerías necesarias, ejecuta el siguiente comando en una ter
 'pip install grpcio grpcio-tools'
 
 ### Ejecucón
-El archivo .proto requiere correr el siguiente comando para crear los archivos necesarios para poder funcionar. Se sugiere utilizar el nombre del archivo pues las importaciones tienen el nombre de este archivo más el agregado automático para correr el comando. 
-'python -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. document.proto'
+El archivo .proto requiere correr el siguiente comando para crear los archivos necesarios para poder funcionar. Se sugiere utilizar el nombre del archivo pues las importaciones tienen el nombre de este archivo más el agregado automático para correr el comando.
+`python -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. document.proto`
+
  Una vez ejecutado ese comnado, se debe ejecutar la siguiente línea para iniciar los nodos. Esto abrirá múltiples ventanas de consola, cada una representa un nodo diferente
-'python main.py'
+ `python main.py`
+
 Durante la ejecución, el script te pedirá que ingreses la cantidad de nodos que deseas crear. Asegúrate de que este número sea una potencia de 2 (e.g., 2, 4, 8).
 
 Interactuar con los Nodos:
